@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogging</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .editDelete{
+           display: flex;
+           flex-direction: row;
+           align-items: center;
+           justify-content:space-between;
+           margin-top: 4vh;
+        }
+    </style>
+</head>
+<body>
+    <h3 class="heading" style="text-align: center;padding: 3vh;font-size: 6vh;">All Blogs</h3>
+    <hr>
+    <form method="GET" action="/blogs/new">
+       
+        <button  style="margin-left: 20vw;"  class="btn btn-primary addBtn">New Blog</button>
+    </form>
+    <hr>
+    <div class="blogBody">
+    <%for(let blog of blogs){%>
+
+        <div class="card" style="width: 58rem;">
+            <div class="card-body">
+              <h5 class="card-title">Title : <%= blog.Title %></h5>
+              <p class="card-text"><%=blog.Content%></p>
+              <p class="card-text">
+                <% 
+                    const createdAt = new Date(blog.created_at);
+                    const formattedDate = `${createdAt.getDate()}/${createdAt.getMonth() + 1}/${createdAt.getFullYear()}`;
+                    const formattedTime = `${createdAt.getHours()}:${(createdAt.getMinutes() < 10 ? '0' : '') + createdAt.getMinutes()}:${(createdAt.getSeconds() < 10 ? '0' : '') + createdAt.getSeconds()}`;
+                %>
+                Date: <%= formattedDate %><br>
+                Time: <%= formattedTime %>
+            </p>
+            
+              <a href="#"  class="btn btn-primary"><%=blog.Author%></a>
+              <div class="editDelete">
+              <form method="GET" action="/blogs/<%=blog._id%>/edit">
+                <button class="btn btn-secondary">Edit Blog</button>
+                
+              </form>
+              <form method="GET" action="/blogs/<%=blog._id%>/delete">
+                <button class="btn btn-danger">Delete Blog</button>
+                
+              </form>
+              
+              </div>
+
+            </div>
+          </div>
+          <br>
+    <%}%>
+   </div>
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
